@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "The Amazing Digital Concert", "The Amazing Digital Concert.csproj", "{072F0B2A-A8D7-45D3-960F-CD9E7C5EB766}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{072F0B2A-A8D7-45D3-960F-CD9E7C5EB766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{072F0B2A-A8D7-45D3-960F-CD9E7C5EB766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{072F0B2A-A8D7-45D3-960F-CD9E7C5EB766}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{072F0B2A-A8D7-45D3-960F-CD9E7C5EB766}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{072F0B2A-A8D7-45D3-960F-CD9E7C5EB766}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{072F0B2A-A8D7-45D3-960F-CD9E7C5EB766}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal
