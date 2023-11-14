@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://cwf8hylq777t4"]
+[gd_scene load_steps=61 format=3 uid="uid://cwf8hylq777t4"]
 
 [ext_resource type="BoxMesh" uid="uid://v3g5ft8py5a1" path="res://void_particle.tres" id="1_1gshi"]
 [ext_resource type="Script" path="res://Main.cs" id="1_wscy2"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bune0761g0ju4" path="res://textures/timpani_hit_right.png" id="11_v127m"]
 [ext_resource type="Texture2D" uid="uid://0n55kwwr82bs" path="res://textures/tambourine_hit.png" id="13_qmwjo"]
 [ext_resource type="Script" path="res://Spectrum.cs" id="15_gr2oi"]
+[ext_resource type="Script" path="res://addons/MidiFollowAudioStreamPlayerPlugin/MidiFollowAudioStreamPlayer.cs" id="17_ysanv"]
 
 [sub_resource type="Gradient" id="Gradient_rvoft"]
 colors = PackedColorArray(0.923877, 0.91331, 0.966146, 1, 0.619608, 0.568627, 0.839216, 1)
@@ -712,3 +713,8 @@ stream = ExtResource("8_8xup5")
 libraries = {
 "": SubResource("AnimationLibrary_nao5l")
 }
+
+[node name="MidiFollowAudioStreamPlayer" type="Node" parent="." node_paths=PackedStringArray("AudioPlayer")]
+script = ExtResource("17_ysanv")
+AudioPlayer = NodePath("../AudioStreamPlayer")
+MidiPath = "res://percussions.mid"

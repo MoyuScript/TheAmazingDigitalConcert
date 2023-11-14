@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Commons.Music.Midi;
+using System.Threading.Tasks;
 
 public partial class Main : Node3D
 {
@@ -19,14 +20,19 @@ public partial class Main : Node3D
 		}
 	}
 
+	int i = 0;
+	DateTime _last;
 	public void Start()
 	{
 		Characters characters = GetNode<Characters>("Stage/Characters");
 		var path = ProjectSettings.GlobalizePath("res://percussions.mid");
-		var music = MidiMusic.Read(System.IO.File.OpenRead(path));
-		var player = new MidiPlayer(music);
-		player.EventReceived += (MidiEvent e) =>
-		{
+		// var music = MidiMusic.Read(System.IO.File.OpenRead(path));
+		var audioStreamPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+		
+		var midiNode = GetNode<MidiFollowAudioStreamPlayer>("MidiFollowAudioStreamPlayer");
+		_last = DateTime.Now;
+		midiNode.ReceivedMidiEvent += () => {
+			var e = midiNode.CurrentMidiEvent;
 			if (e.EventType == MidiEvent.NoteOn)
 			{
 
@@ -38,17 +44,20 @@ public partial class Main : Node3D
 				if (noteNumber == 38)
 				{
 					// 军鼓
-					characters.CallDeferred("HitSnare");
+					characters.HitSnare();
+					var now = DateTime.Now;
+					GD.Print("Snare", " ", i++, " ", now.Subtract(_last).TotalMilliseconds);
+					_last = now;
 				}
 				else if (noteNumber == 36)
 				{
 					// 定音鼓
-					characters.CallDeferred("HitTimpani");
+					characters.HitTimpani();
 				}
 				else if (noteNumber == 54)
 				{
 					// 铃鼓
-					characters.CallDeferred("HitTambourine");
+					characters.HitTambourine();
 				}
 			}
 			else if (e.EventType == MidiEvent.NoteOff)
@@ -61,23 +70,75 @@ public partial class Main : Node3D
 				if (noteNumber == 38)
 				{
 					// 军鼓
-					characters.CallDeferred("IdleSnare");
+					characters.IdleSnare();
 				}
 				else if (noteNumber == 36)
 				{
 					// 定音鼓
-					characters.CallDeferred("IdleTimpani");
+					characters.IdleTimpani();
 				}
 				else if (noteNumber == 54)
 				{
 					// 铃鼓
-					characters.CallDeferred("IdleTambourine");
+					characters.IdleTambourine();
 				}
 			}
 		};
-		player.Play();
 
-		GetNode<AudioStreamPlayer>("AudioStreamPlayer").Play();
+		// var player = new MidiPlayer(music);
+		// player.EventReceived += (MidiEvent e) =>
+		// {
+		// 	if (e.EventType == MidiEvent.NoteOn)
+		// 	{
+
+		// 		int channel = e.Value & 0xf;
+		// 		int noteNumber = e.Value >> 8 & 0xff;
+
+		// 		if (channel != 9) return;
+
+		// 		if (noteNumber == 38)
+		// 		{
+		// 			// 军鼓
+		// 			characters.CallDeferred("HitSnare");
+		// 		}
+		// 		else if (noteNumber == 36)
+		// 		{
+		// 			// 定音鼓
+		// 			characters.CallDeferred("HitTimpani");
+		// 		}
+		// 		else if (noteNumber == 54)
+		// 		{
+		// 			// 铃鼓
+		// 			characters.CallDeferred("HitTambourine");
+		// 		}
+		// 	}
+		// 	else if (e.EventType == MidiEvent.NoteOff)
+		// 	{
+		// 		int channel = e.Value & 0xf;
+		// 		int noteNumber = e.Value >> 8 & 0xff;
+
+		// 		if (channel != 9) return;
+
+		// 		if (noteNumber == 38)
+		// 		{
+		// 			// 军鼓
+		// 			characters.CallDeferred("IdleSnare");
+		// 		}
+		// 		else if (noteNumber == 36)
+		// 		{
+		// 			// 定音鼓
+		// 			characters.CallDeferred("IdleTimpani");
+		// 		}
+		// 		else if (noteNumber == 54)
+		// 		{
+		// 			// 铃鼓
+		// 			characters.CallDeferred("IdleTambourine");
+		// 		}
+		// 	}
+		// };
+		// player.Play();
+
+		audioStreamPlayer.Play();
 		GetNode<AnimationPlayer>("PerformAnimationPlayer").Play("perform");
 		GetNode<AnimationPlayer>("Stage/Logo/AnimationPlayer").Play("beating");
 	}
